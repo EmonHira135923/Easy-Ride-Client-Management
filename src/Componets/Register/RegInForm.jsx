@@ -1,11 +1,16 @@
-import React, { use } from "react";
-import { NavLink } from "react-router";
+import React, { use, useState } from "react";
+import { NavLink, useNavigate } from "react-router";
 import { AuthProvider } from "../../ContextProvider/Provider";
 import Swal from "sweetalert2";
 
 const RegInForm = () => {
-  const { Createuser } = use(AuthProvider);
+  const { Createuser, Googlesign, UpdatedProfile } = use(AuthProvider);
+  const [error, SetError] = useState("");
+  const [success, SetSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
+  // Handle RegForm
   const handleregform = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -13,10 +18,44 @@ const RegInForm = () => {
     const photo = e.target.photo.value;
     const password = e.target.password.value;
 
+    SetSuccess(false);
+    SetError("");
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!passwordRegex.test(password)) {
+      SetError(
+        "Password must be at least 6 characters and include uppercase and lowercase letters"
+      );
+      return;
+    }
+
     Createuser(email, password)
       .then((result) => {
         const user = result.user;
-        Swal.fire("Passed", result.user);
+        SetSuccess(true);
+        UpdatedProfile(name, photo)
+          .then(() => {
+            Swal.fire("Success", "User Registered Successfully!", "success");
+            e.target.reset();
+            navigate("/");
+          })
+          .catch((error) => {
+            Swal.fire("Error", error.message, "error");
+          });
+        console.log(user);
+      })
+      .catch((error) => {
+        SetError(error);
+        Swal.fire("Email Already Use");
+      });
+  };
+
+  // Handle GoogleSignIn
+  const handlegooglesign = () => {
+    Googlesign()
+      .then(() => {
+        Swal.fire("Success", "Login Successful!", "success");
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire("Error", error.message, "error");
@@ -94,14 +133,23 @@ const RegInForm = () => {
             >
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autoComplete="new-password"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                required
+              />
+              <span
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "👁" : "🙈"}
+              </span>
+            </div>
             <p className="text-sm text-gray-400 mt-1">
               Password must be at least 6 characters, include uppercase and
               lowercase letters
@@ -123,7 +171,10 @@ const RegInForm = () => {
         </div>
 
         {/* Google Button */}
-        <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors">
+        <button
+          onClick={handlegooglesign}
+          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors"
+        >
           <svg
             aria-label="Google logo"
             width="16"
