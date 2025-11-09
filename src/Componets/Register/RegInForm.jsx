@@ -1,9 +1,30 @@
-import React from "react";
+import React, { use } from "react";
 import { NavLink } from "react-router";
+import { AuthProvider } from "../../ContextProvider/Provider";
+import Swal from "sweetalert2";
 
 const RegInForm = () => {
+  const { Createuser } = use(AuthProvider);
+
+  const handleregform = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photo = e.target.photo.value;
+    const password = e.target.password.value;
+
+    Createuser(email, password)
+      .then((result) => {
+        const user = result.user;
+        Swal.fire("Passed", result.user);
+      })
+      .catch((error) => {
+        Swal.fire("Error", error.message, "error");
+      });
+  };
+
   return (
-    <div className="p-25 flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50">
+    <div className="p-25 flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
         {/* Title */}
         <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">
@@ -11,7 +32,7 @@ const RegInForm = () => {
         </h2>
 
         {/* Registration Form */}
-        <form className="space-y-5">
+        <form onSubmit={handleregform} className="space-y-5">
           {/* Name */}
           <div>
             <label
@@ -23,6 +44,7 @@ const RegInForm = () => {
             <input
               type="text"
               id="name"
+              name="name"
               placeholder="Enter your full name"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
@@ -40,6 +62,7 @@ const RegInForm = () => {
             <input
               type="email"
               id="email"
+              name="email"
               placeholder="Enter your email"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
@@ -57,6 +80,7 @@ const RegInForm = () => {
             <input
               type="text"
               id="photo"
+              name="photo"
               placeholder="Enter your photo URL"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
@@ -73,6 +97,7 @@ const RegInForm = () => {
             <input
               type="password"
               id="password"
+              name="password"
               placeholder="Enter your password"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
@@ -98,7 +123,7 @@ const RegInForm = () => {
         </div>
 
         {/* Google Button */}
-        <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+        <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors">
           <svg
             aria-label="Google logo"
             width="16"
