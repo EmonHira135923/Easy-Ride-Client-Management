@@ -5,6 +5,29 @@ import { Menu, X } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Map of routes for Navbar
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "All Vehicles", path: "/vehicles" },
+    { name: "Add Vehicle", path: "/add-vehicles" },
+    { name: "My Vehicles", path: "/my-vehicles" },
+    { name: "My Bookings", path: "/my-booking" },
+  ];
+
+  const authLinks = [
+    {
+      name: "Login",
+      path: "/login",
+      style: "bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600",
+    },
+    {
+      name: "Register",
+      path: "/register",
+      style:
+        "border border-purple-500 px-4 py-2 rounded hover:bg-purple-500 hover:text-white",
+    },
+  ];
+
   return (
     <nav className="bg-[#001931] text-white px-6 py-4 shadow-md fixed w-full z-50">
       <div className="max-w-[1400px] mx-auto flex justify-between items-center">
@@ -13,74 +36,30 @@ const Navbar = () => {
           TravelEase
         </div>
 
-        {/* Navigation Links (desktop) */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? "text-purple-400 font-semibold"
-                : "hover:text-purple-400 transition-colors"
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/vehicles"
-            className={({ isActive }) =>
-              isActive
-                ? "text-purple-400 font-semibold"
-                : "hover:text-purple-400 transition-colors"
-            }
-          >
-            All Vehicles
-          </NavLink>
-          <NavLink
-            to="/addVehicle"
-            className={({ isActive }) =>
-              isActive
-                ? "text-purple-400 font-semibold"
-                : "hover:text-purple-400 transition-colors"
-            }
-          >
-            Add Vehicle
-          </NavLink>
-          <NavLink
-            to="/myVehicles"
-            className={({ isActive }) =>
-              isActive
-                ? "text-purple-400 font-semibold"
-                : "hover:text-purple-400 transition-colors"
-            }
-          >
-            My Vehicles
-          </NavLink>
-          <NavLink
-            to="/myBookings"
-            className={({ isActive }) =>
-              isActive
-                ? "text-purple-400 font-semibold"
-                : "hover:text-purple-400 transition-colors"
-            }
-          >
-            My Bookings
-          </NavLink>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-purple-400 font-semibold"
+                  : "hover:text-purple-400 transition-colors"
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
         </div>
 
-        {/* Auth Buttons (desktop) */}
+        {/* Auth Buttons (Desktop) */}
         <div className="hidden md:flex items-center space-x-4">
-          <NavLink
-            to="/login"
-            className="px-4 py-2 bg-purple-500 rounded hover:bg-purple-600 transition-colors"
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/register"
-            className="px-4 py-2 border border-purple-500 rounded hover:bg-purple-500 hover:text-white transition-colors"
-          >
-            Register
-          </NavLink>
+          {authLinks.map((link) => (
+            <NavLink key={link.name} to={link.path} className={link.style}>
+              {link.name}
+            </NavLink>
+          ))}
         </div>
 
         {/* Mobile Menu Button */}
@@ -94,55 +73,26 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-[#001931] px-6 py-4 space-y-3">
-          <NavLink
-            to="/"
-            className="block hover:text-purple-400 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/vehicles"
-            className="block hover:text-purple-400 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            All Vehicles
-          </NavLink>
-          <NavLink
-            to="/addVehicle"
-            className="block hover:text-purple-400 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Add Vehicle
-          </NavLink>
-          <NavLink
-            to="/myVehicles"
-            className="block hover:text-purple-400 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            My Vehicles
-          </NavLink>
-          <NavLink
-            to="/myBookings"
-            className="block hover:text-purple-400 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            My Bookings
-          </NavLink>
-          <NavLink
-            to="/login"
-            className="block px-4 py-2 bg-purple-500 rounded hover:bg-purple-600 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/register"
-            className="block px-4 py-2 border border-purple-500 rounded hover:bg-purple-500 hover:text-white transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Register
-          </NavLink>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              className="block hover:text-purple-400 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </NavLink>
+          ))}
+          {authLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              className={`${link.style} block`}
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </NavLink>
+          ))}
         </div>
       )}
     </nav>

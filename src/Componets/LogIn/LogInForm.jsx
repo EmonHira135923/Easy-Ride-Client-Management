@@ -1,7 +1,10 @@
-import React from "react";
+import React, { use } from "react";
 import { NavLink } from "react-router";
+import { AuthProvider } from "../../ContextProvider/Provider";
 
 const LogInForm = () => {
+  const { name } = use(AuthProvider);
+  console.log(name);
   return (
     <div className="p-25 flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-50">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
