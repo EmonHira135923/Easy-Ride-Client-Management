@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router";
-import { motion } from "framer-motion";
 import heroImage from "../../assets/heroimage.avif";
 const Banner = () => {
   return (
@@ -34,7 +33,7 @@ const Banner = () => {
           </NavLink>
 
           <NavLink
-            to="/addVehicle"
+            to="/add-vehicles"
             className="px-6 py-3 border border-purple-600 text-white font-semibold rounded-lg hover:bg-purple-600 hover:text-white transition-colors"
           >
             Add Vehicle
