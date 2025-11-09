@@ -1,12 +1,45 @@
 import React, { use } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { AuthProvider } from "../../ContextProvider/Provider";
+import Swal from "sweetalert2";
 
 const LogInForm = () => {
-  const { name } = use(AuthProvider);
-  console.log(name);
+  const navigate = useNavigate();
+  const { Googlesign, UserSignIn } = use(AuthProvider);
+
+  // Handle LogInHandle
+  const handlesignin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    UserSignIn(email, password)
+      .then((result) => {
+        console.log(result);
+        e.target.reset();
+        navigate("/");
+        Swal.fire("Account LogIn Successfully.");
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire("Login Failed", error.message, "error");
+      });
+  };
+
+  // Handle GoogleSignIn
+  const handlegooglesign = () => {
+    Googlesign()
+      .then(() => {
+        Swal.fire("Success", "Login Successful!", "success");
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire("Error", error.message, "error");
+      });
+  };
+
   return (
-    <div className="p-25 flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-50">
+    <div className="p-25 flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
         {/* Title */}
         <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">
@@ -14,7 +47,7 @@ const LogInForm = () => {
         </h2>
 
         {/* Login Form */}
-        <form className="space-y-5">
+        <form onSubmit={handlesignin} className="space-y-5">
           {/* Email */}
           <div>
             <label
@@ -27,6 +60,7 @@ const LogInForm = () => {
               type="email"
               id="email"
               placeholder="Enter your email"
+              name="email"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
@@ -43,6 +77,8 @@ const LogInForm = () => {
             <input
               type="password"
               id="password"
+              name="password"
+              autoComplete="new-password"
               placeholder="Enter your password"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
@@ -72,7 +108,10 @@ const LogInForm = () => {
         </div>
 
         {/* Google Button */}
-        <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+        <button
+          onClick={handlegooglesign}
+          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors"
+        >
           <svg
             aria-label="Google logo"
             width="16"
@@ -100,7 +139,7 @@ const LogInForm = () => {
               ></path>
             </g>
           </svg>
-          Login with Google
+          Sign with Google
         </button>
 
         {/* Register Link */}

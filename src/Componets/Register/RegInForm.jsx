@@ -54,7 +54,7 @@ const RegInForm = () => {
   const handlegooglesign = () => {
     Googlesign()
       .then(() => {
-        Swal.fire("Success", "Login Successful!", "success");
+        Swal.fire("Success", "Registration Successful!", "success");
         navigate("/");
       })
       .catch((error) => {
