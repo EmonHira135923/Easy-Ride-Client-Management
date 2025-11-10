@@ -26,7 +26,7 @@ const Banner = () => {
         {/* Buttons */}
         <div className="flex justify-center gap-4 flex-wrap">
           <NavLink
-            to="/vehicles"
+            to="/allvehicles"
             className="px-6 py-3 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-colors"
           >
             All Vehicles

@@ -10,7 +10,8 @@ import AddVehicles from "../Pages/AllVehicle/AddVehicle/AddVehicles.jsx";
 import MyBookings from "../Pages/MyVehicle/MyBookings.jsx";
 import Myvehicles from "../Pages/MyVehicle/Myvehicles.jsx";
 import UpdateVehicle from "../Pages/UpdateVehicle/UpdateVehicle.jsx";
-import CarDetails from "../Pages/MyVehicle/CarDetails.jsx";
+import CarDetails from "../Componets/CarDetails/CarDetails.jsx";
+
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -20,8 +21,12 @@ const Router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "/login", Component: LogIn },
       { path: "/register", Component: Register },
-      { path: "/vehicles", Component: AllVehicle },
-      { path: "/detaispage", element: <CarDetails></CarDetails> },
+      {
+        path: "/allvehicles",
+        loader: () => fetch("http://localhost:3000/allvehicles"),
+        Component: AllVehicle,
+      },
+      { path: "/detailspage/:id", element: <CarDetails></CarDetails> },
       { path: "/update", element: <UpdateVehicle></UpdateVehicle> },
       { path: "/add-vehicles", element: <AddVehicles></AddVehicles> },
       { path: "/my-vehicles", element: <Myvehicles></Myvehicles> },

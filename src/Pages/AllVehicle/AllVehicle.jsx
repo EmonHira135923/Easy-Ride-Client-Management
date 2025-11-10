@@ -1,9 +1,10 @@
 import React from "react";
+import AllVehicles from "../../Componets/AllVehicle/AllVehicles";
 
 const AllVehicle = () => {
   return (
     <div>
-      <h1>All Vehilce</h1>
+      <AllVehicles></AllVehicles>
     </div>
   );
 };

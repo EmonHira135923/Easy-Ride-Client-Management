@@ -8,7 +8,7 @@ const Navbar = () => {
   // Map of routes for Navbar
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "All Vehicles", path: "/vehicles" },
+    { name: "All Vehicles", path: "/allvehicles" },
     { name: "Add Vehicle", path: "/add-vehicles" },
     { name: "My Vehicles", path: "/my-vehicles" },
     { name: "My Bookings", path: "/my-booking" },
@@ -29,7 +29,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-[#001931] text-white px-6 py-4 shadow-md fixed w-full z-50">
+    <nav className="bg-gray-300 max-w-[1550px] mx-auto text-white px-6 py-4 shadow-md fixed w-full z-50">
       <div className="max-w-[1400px] mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="text-2xl sm:text-3xl font-bold text-purple-400">
