@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { NavLink } from "react-router";
 
 const AllCarCard = ({ allcarcard }) => {
-  const navigate = useNavigate();
-
   return (
     <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
       <div className="relative h-56 overflow-hidden">
@@ -30,12 +28,12 @@ const AllCarCard = ({ allcarcard }) => {
           {allcarcard.description}
         </p>
 
-        <button
-          onClick={() => navigate(`/detailspage/${allcarcard._id}`)}
+        <NavLink
+          to={`/detailspage/${allcarcard._id}`}
           className="w-full mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg"
         >
           View Details
-        </button>
+        </NavLink>
       </div>
     </div>
   );

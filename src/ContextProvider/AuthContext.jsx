@@ -45,6 +45,7 @@ const AuthContext = ({ children }) => {
 
   // Sign Out
   const Signout = () => {
+    setLoading(true);
     return signOut(auth);
   };
 

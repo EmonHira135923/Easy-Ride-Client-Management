@@ -30,17 +30,8 @@ const Router = createBrowserRouter([
       },
       {
         path: "/detailspage/:id",
-        loader: async ({ params }) => {
-          try {
-            const response = await fetch(
-              `http://localhost:3000/allvehicles/${params.id}` // <-- use this existing backend route
-            );
-            const data = await response.json();
-            return data;
-          } catch (error) {
-            return { error: "Failed to fetch vehicle" };
-          }
-        },
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/allvehicles/${params.id}`),
         element: (
           <PrivateRouter>
             <CarDetails />
@@ -48,11 +39,7 @@ const Router = createBrowserRouter([
         ),
       },
       {
-        path: "/update/:id",
-        loader: ({ params }) =>
-          fetch(`http://localhost:3000/allvehicles/${params.id}`).then((res) =>
-            res.json()
-          ),
+        path: "/update",
         element: (
           <PrivateRouter>
             <UpdateVehicle />
