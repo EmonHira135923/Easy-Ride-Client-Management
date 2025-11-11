@@ -1,16 +1,14 @@
-import React, { use, useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { AuthProvider } from "../../ContextProvider/Provider";
 import Swal from "sweetalert2";
 
 const RegInForm = () => {
-  const { Createuser, Googlesign, UpdatedProfile } = use(AuthProvider);
+  const { Createuser, Googlesign, UpdatedProfile } = useContext(AuthProvider);
   const [error, SetError] = useState("");
-  const [success, SetSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // Handle RegForm
   const handleregform = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -18,7 +16,6 @@ const RegInForm = () => {
     const photo = e.target.photo.value;
     const password = e.target.password.value;
 
-    SetSuccess(false);
     SetError("");
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -31,8 +28,6 @@ const RegInForm = () => {
 
     Createuser(email, password)
       .then((result) => {
-        const user = result.user;
-        SetSuccess(true);
         UpdatedProfile(name, photo)
           .then(() => {
             Swal.fire("Success", "User Registered Successfully!", "success");
@@ -42,15 +37,13 @@ const RegInForm = () => {
           .catch((error) => {
             Swal.fire("Error", error.message, "error");
           });
-        console.log(user);
       })
       .catch((error) => {
-        SetError(error);
-        Swal.fire("Email Already Use");
+        SetError(error.message);
+        Swal.fire("Error", "Email Already Used", "error");
       });
   };
 
-  // Handle GoogleSignIn
   const handlegooglesign = () => {
     Googlesign()
       .then(() => {
@@ -63,15 +56,13 @@ const RegInForm = () => {
   };
 
   return (
-    <div className="p-25 flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        {/* Title */}
-        <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200 px-4 py-8">
+      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-6 md:p-8 flex flex-col">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-purple-600 mb-6">
           Register for TravelEase
         </h2>
 
-        {/* Registration Form */}
-        <form onSubmit={handleregform} className="space-y-5">
+        <form onSubmit={handleregform} className="space-y-4">
           {/* Name */}
           <div>
             <label
@@ -150,7 +141,7 @@ const RegInForm = () => {
                 {showPassword ? "👁" : "🙈"}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-xs md:text-sm text-gray-400 mt-1">
               Password must be at least 6 characters, include uppercase and
               lowercase letters
             </p>
@@ -166,52 +157,30 @@ const RegInForm = () => {
         </form>
 
         {/* OR Divider */}
-        <div className="mt-4 flex items-center justify-center text-gray-400">
+        <div className="mt-4 flex items-center justify-center text-gray-400 text-sm">
           <span className="mx-2">or register with</span>
         </div>
 
         {/* Google Button */}
         <button
           onClick={handlegooglesign}
-          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors"
+          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors text-white font-medium"
         >
-          <svg
-            aria-label="Google logo"
-            width="16"
-            height="16"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-          >
-            <g>
-              <path d="m0 0H512V512H0" fill="#fff"></path>
-              <path
-                fill="#34a853"
-                d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-              ></path>
-              <path
-                fill="#4285f4"
-                d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-              ></path>
-              <path
-                fill="#fbbc02"
-                d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-              ></path>
-              <path
-                fill="#ea4335"
-                d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-              ></path>
-            </g>
-          </svg>
-          Register with Google
+          Google
         </button>
 
         {/* Login Link */}
-        <p className="mt-4 text-center text-gray-500">
+        <p className="mt-4 text-center text-gray-500 text-sm">
           Already have an account?{" "}
           <NavLink to="/login" className="text-purple-500 hover:underline">
             Login
           </NavLink>
         </p>
+
+        {/* Error Message */}
+        {error && (
+          <p className="text-red-500 text-sm text-center mt-2">{error}</p>
+        )}
       </div>
     </div>
   );

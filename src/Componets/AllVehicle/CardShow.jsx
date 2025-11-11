@@ -1,34 +1,37 @@
 import React from "react";
-import { FaUser, FaSuitcase } from "react-icons/fa";
+import { NavLink } from "react-router";
 
 const CardShow = ({ data }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
-      <div className="h-56 w-full overflow-hidden">
+    <div className="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+      <div className="relative h-56 overflow-hidden">
         <img
           src={data.coverImage}
           alt={data.vehicleName}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
         />
       </div>
-      <div className="p-5 text-center">
-        <h3 className="text-xl font-semibold text-gray-800 mb-1">
-          {data.vehicleName}
-        </h3>
-        <p className="text-gray-500 mb-3">{data.category}</p>
-        <div className="flex justify-center gap-4 text-gray-600 mb-4">
-          <div className="flex items-center gap-1">
-            <FaUser />
-            <span>{data.userEmail}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <FaSuitcase />
-            <span>{data.location}</span>
+
+      <div className="p-6 space-y-4">
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-xl font-bold text-gray-900 line-clamp-1">
+            {data.vehicleName}
+          </h2>
+          <div className="flex flex-col items-end">
+            <span className="text-2xl font-bold text-indigo-600">
+              ${data.pricePerDay}
+            </span>
+            <span className="text-xs text-gray-500">per day</span>
           </div>
         </div>
-        <button className="w-full py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors">
+        <p className="text-sm text-gray-600 line-clamp-2">{data.description}</p>
+
+        <NavLink
+          to={`/detailspage/${data._id}`}
+          className="w-full mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg"
+        >
           View Details
-        </button>
+        </NavLink>
       </div>
     </div>
   );

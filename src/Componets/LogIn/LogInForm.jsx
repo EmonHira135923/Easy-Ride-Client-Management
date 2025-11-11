@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { AuthProvider } from "../../ContextProvider/Provider";
 import Swal from "sweetalert2";
@@ -6,8 +6,9 @@ import Swal from "sweetalert2";
 const LogInForm = () => {
   const navigate = useNavigate();
   const { Googlesign, UserSignIn } = use(AuthProvider);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Handle LogInHandle
+  // Handle LogIn
   const handlesignin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -26,7 +27,7 @@ const LogInForm = () => {
       });
   };
 
-  // Handle GoogleSignIn
+  // Google SignIn
   const handlegooglesign = () => {
     Googlesign()
       .then(() => {
@@ -39,15 +40,15 @@ const LogInForm = () => {
   };
 
   return (
-    <div className="p-25 flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-300 to-indigo-200 px-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 md:p-10 flex flex-col justify-center">
         {/* Title */}
-        <h2 className="text-3xl font-bold text-center text-purple-600 mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-purple-600 mb-6">
           Login to TravelEase
         </h2>
 
         {/* Login Form */}
-        <form onSubmit={handlesignin} className="space-y-5">
+        <form onSubmit={handlesignin} className="space-y-4 md:space-y-5">
           {/* Email */}
           <div>
             <label
@@ -74,23 +75,26 @@ const LogInForm = () => {
             >
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              autoComplete="new-password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
-            />
-            <div className="text-right mt-1">
-              <NavLink
-                to="/forgot-password"
-                className="text-sm text-purple-500 hover:underline"
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autoComplete="new-password"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                required
+              />
+              <span
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 select-none"
+                onClick={() => setShowPassword(!showPassword)}
               >
-                Forgot Password?
-              </NavLink>
+                {showPassword ? "👁" : "🙈"}
+              </span>
             </div>
+            <p className="text-xs md:text-sm text-gray-400 mt-1">
+              Enter your password
+            </p>
           </div>
 
           {/* Login Button */}
@@ -103,47 +107,20 @@ const LogInForm = () => {
         </form>
 
         {/* OR Divider */}
-        <div className="mt-4 flex items-center justify-center text-gray-400">
+        <div className="mt-4 flex items-center justify-center text-gray-400 text-sm md:text-base">
           <span className="mx-2">or login with</span>
         </div>
 
         {/* Google Button */}
         <button
           onClick={handlegooglesign}
-          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors"
+          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-500 py-2 bg-purple-400 rounded-lg hover:bg-purple-600 transition-colors text-white font-medium"
         >
-          <svg
-            aria-label="Google logo"
-            width="16"
-            height="16"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-          >
-            <g>
-              <path d="m0 0H512V512H0" fill="#fff"></path>
-              <path
-                fill="#34a853"
-                d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-              ></path>
-              <path
-                fill="#4285f4"
-                d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-              ></path>
-              <path
-                fill="#fbbc02"
-                d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-              ></path>
-              <path
-                fill="#ea4335"
-                d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-              ></path>
-            </g>
-          </svg>
-          Sign with Google
+          Google SignIn
         </button>
 
         {/* Register Link */}
-        <p className="mt-4 text-center text-gray-500">
+        <p className="mt-4 text-center text-gray-500 text-sm md:text-base">
           Don't have an account?{" "}
           <NavLink to="/register" className="text-purple-500 hover:underline">
             Register

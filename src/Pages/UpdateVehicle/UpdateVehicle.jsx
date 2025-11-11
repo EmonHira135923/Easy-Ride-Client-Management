@@ -1,9 +1,10 @@
 import React from "react";
+import UpdateCar from "../../Componets/UpdateVehicle/UpdateCar";
 
 const UpdateVehicle = () => {
   return (
     <div>
-      <h1>Update Vehicles</h1>
+      <UpdateCar></UpdateCar>
     </div>
   );
 };

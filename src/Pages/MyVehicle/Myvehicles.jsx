@@ -1,9 +1,10 @@
 import React from "react";
+import MyVehicle from "../../Componets/MyChoice/MyVehicle";
 
 const Myvehicles = () => {
   return (
     <div>
-      <h1>my vehicles</h1>
+      <MyVehicle></MyVehicle>
     </div>
   );
 };

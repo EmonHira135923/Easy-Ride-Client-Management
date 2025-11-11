@@ -1,9 +1,10 @@
 import React from "react";
+import MyBooking from "../../Componets/MyChoice/MyBooking";
 
 const MyBookings = () => {
   return (
     <div>
-      <h1>My Bookings</h1>
+      <MyBooking></MyBooking>
     </div>
   );
 };
