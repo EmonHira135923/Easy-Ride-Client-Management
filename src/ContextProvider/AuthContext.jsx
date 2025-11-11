@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  updateCurrentUser,
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/Firebase.config";
@@ -24,18 +23,19 @@ const AuthContext = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // Email Sign
+  // Email Sign In
   const UserSignIn = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // Google Sign
+  // Google Sign In
   const Googlesign = () => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
 
-  // Update Profle
+  // Update Profile
   const UpdatedProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
@@ -58,6 +58,8 @@ const AuthContext = ({ children }) => {
   }, []);
 
   const Userinfo = {
+    user,
+    loading,
     Createuser,
     Googlesign,
     UpdatedProfile,

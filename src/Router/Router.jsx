@@ -11,26 +11,78 @@ import MyBookings from "../Pages/MyVehicle/MyBookings.jsx";
 import Myvehicles from "../Pages/MyVehicle/Myvehicles.jsx";
 import UpdateVehicle from "../Pages/UpdateVehicle/UpdateVehicle.jsx";
 import CarDetails from "../Componets/CarDetails/CarDetails.jsx";
+import PrivateRouter from "./PrivateRouter.jsx";
 
 const Router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
-    errorElement: <Erro404></Erro404>,
+    errorElement: <Erro404 />,
     children: [
       { index: true, Component: Home },
       { path: "/login", Component: LogIn },
       { path: "/register", Component: Register },
       {
         path: "/allvehicles",
-        loader: () => fetch("http://localhost:3000/allvehicles"),
+        loader: () =>
+          fetch("http://localhost:3000/allvehicles").then((res) => res.json()),
         Component: AllVehicle,
       },
-      { path: "/detailspage/:id", element: <CarDetails></CarDetails> },
-      { path: "/update", element: <UpdateVehicle></UpdateVehicle> },
-      { path: "/add-vehicles", element: <AddVehicles></AddVehicles> },
-      { path: "/my-vehicles", element: <Myvehicles></Myvehicles> },
-      { path: "/my-booking", element: <MyBookings></MyBookings> },
+      {
+        path: "/detailspage/:id",
+        loader: async ({ params }) => {
+          try {
+            const response = await fetch(
+              `http://localhost:3000/allvehicles/${params.id}` // <-- use this existing backend route
+            );
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            return { error: "Failed to fetch vehicle" };
+          }
+        },
+        element: (
+          <PrivateRouter>
+            <CarDetails />
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/update/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/allvehicles/${params.id}`).then((res) =>
+            res.json()
+          ),
+        element: (
+          <PrivateRouter>
+            <UpdateVehicle />
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/add-vehicles",
+        element: (
+          <PrivateRouter>
+            <AddVehicles />
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/my-vehicles",
+        element: (
+          <PrivateRouter>
+            <Myvehicles />
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/my-booking",
+        element: (
+          <PrivateRouter>
+            <MyBookings />
+          </PrivateRouter>
+        ),
+      },
     ],
   },
 ]);
