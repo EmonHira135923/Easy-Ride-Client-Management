@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 
 const MyCar = ({ vehicle, handleDelete }) => {
   const navigate = useNavigate();
+  console.log(vehicle);
+  console.log(`/detailspage/${vehicle._id}`);
 
   return (
     <div className="bg-white shadow-lg rounded-xl overflow-hidden mb-8">

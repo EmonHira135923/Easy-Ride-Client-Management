@@ -13,7 +13,7 @@ import { AuthProvider } from "./Provider";
 
 const provider = new GoogleAuthProvider();
 
-const Spinner = () => {
+export const Spinner = () => {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
       <div className="relative flex flex-col items-center">

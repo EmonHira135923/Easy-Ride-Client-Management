@@ -4,9 +4,9 @@ import CardShow from "./CardShow";
 const Vehicle = ({ vehiclespromise }) => {
   const AllVehicles = use(vehiclespromise);
   return (
-    <section className="bg-gradient-to-r from-purple-100 via-indigo-50 to-purple-50 py-12 px-4">
+    <section className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+        <h2 className="text-3xl font-bold text-white mb-12 text-center">
           Latest Vehicles
         </h2>
 
