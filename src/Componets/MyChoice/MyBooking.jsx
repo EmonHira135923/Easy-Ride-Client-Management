@@ -15,6 +15,7 @@ const MyBooking = () => {
   const springProps = useSpring({
     from: { opacity: 0, transform: "translateY(20px)" },
     to: { opacity: 1, transform: "translateY(0px)" },
+    config: { duration: 300 },
   });
 
   useEffect(() => {
@@ -45,16 +46,14 @@ const MyBooking = () => {
     fetchBookings();
   }, [user?.email]);
 
-  // Show loading spinner
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto mt-10 px-4 flex justify-center items-center min-h-64">
+      <div className="max-w-6xl mx-auto mt-10 px-4 flex justify-center items-center min-h-[60vh]">
         <Spinner />
       </div>
     );
   }
 
-  // Show error message
   if (error) {
     return (
       <div className="max-w-6xl mx-auto mt-10 px-4">
@@ -75,8 +74,8 @@ const MyBooking = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
+    <div className="max-w-6xl mx-auto mt-10 px-3 sm:px-4 md:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-center text-gray-800">
         My Bookings
       </h1>
 
@@ -92,50 +91,49 @@ const MyBooking = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+            {/* ✅ Desktop Table */}
+            <div className="hidden sm:block bg-white shadow-lg rounded-xl overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 text-sm sm:text-base">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left font-medium text-gray-500 uppercase tracking-wider">
                         Vehicle
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left font-medium text-gray-500 uppercase tracking-wider">
                         Booking Date
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left font-medium text-gray-500 uppercase tracking-wider">
                         Price/Day
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left font-medium text-gray-500 uppercase tracking-wider">
                         Location
                       </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-4 text-left font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
                     </tr>
                   </thead>
+
                   <tbody className="bg-white divide-y divide-gray-200">
                     {bookings.map((booking, index) => (
                       <motion.tr
                         key={booking._id}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
-                        whileHover={{
-                          backgroundColor: "rgba(249, 250, 251, 0.8)",
-                        }}
-                        className="cursor-pointer transition-colors duration-200"
+                        className="hover:bg-gray-50 transition-colors"
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <div className="h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center">
                               <span className="text-purple-600 font-semibold text-sm">
                                 {booking.vehicleName?.charAt(0) || "V"}
                               </span>
                             </div>
-                            <div className="ml-4">
+                            <div className="ml-3">
                               <div className="text-sm font-medium text-gray-900">
                                 {booking.vehicleName}
                               </div>
@@ -158,10 +156,8 @@ const MyBooking = () => {
                             ${booking.pricePerDay}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {booking.location}
-                          </div>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {booking.location}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
@@ -185,12 +181,83 @@ const MyBooking = () => {
               </div>
             </div>
 
-            {/* Summary */}
-            <div className="mt-6 bg-white shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            {/* ✅ Mobile Card Layout */}
+            <div className="sm:hidden space-y-4">
+              {bookings.map((booking, index) => (
+                <motion.div
+                  key={booking._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="bg-white shadow-md rounded-lg p-4 border border-gray-100"
+                >
+                  <div className="flex items-center mb-3">
+                    <div className="h-10 w-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <span className="text-purple-600 font-semibold text-sm">
+                        {booking.vehicleName?.charAt(0) || "V"}
+                      </span>
+                    </div>
+                    <div className="ml-3">
+                      <h2 className="text-lg font-semibold text-gray-800">
+                        {booking.vehicleName}
+                      </h2>
+                      <p className="text-sm text-gray-500">
+                        {booking.vehicleType || "Vehicle"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-sm text-gray-700 space-y-1">
+                    <p>
+                      <span className="font-semibold text-gray-800">
+                        Booking Date:
+                      </span>{" "}
+                      {format(new Date(booking.bookingDate), "PPP")}{" "}
+                      <span className="text-gray-500">
+                        ({format(new Date(booking.bookingDate), "p")})
+                      </span>
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-800">
+                        Price/Day:
+                      </span>{" "}
+                      ${booking.pricePerDay}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-800">
+                        Location:
+                      </span>{" "}
+                      {booking.location}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-800">
+                        Status:
+                      </span>{" "}
+                      <span
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          booking.status === "confirmed"
+                            ? "bg-green-100 text-green-800"
+                            : booking.status === "pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : booking.status === "cancelled"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {booking.status || "confirmed"}
+                      </span>
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* ✅ Summary Section */}
+            <div className="mt-6 bg-white shadow-lg rounded-xl p-4 sm:p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center sm:text-left">
                 Booking Summary
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <p className="text-2xl font-bold text-blue-600">
                     {bookings.length}

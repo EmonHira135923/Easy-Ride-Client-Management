@@ -10,15 +10,13 @@ const AllVehicles = () => {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [isLoading, setIsLoading] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
 
   // Simulate initial loading
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -28,37 +26,42 @@ const AllVehicles = () => {
     const filterTimer = setTimeout(() => {
       let filtered = [...vehicles];
 
+      // Filter by category
       if (category)
         filtered = filtered.filter(
           (v) => v.category?.toLowerCase() === category.toLowerCase()
         );
+
+      // Filter by location
       if (location)
         filtered = filtered.filter((v) =>
           v.location?.toLowerCase().includes(location.toLowerCase())
         );
 
-      if (sortBy === "pricePerDay")
+      // Sorting logic
+      if (sortBy === "pricePerDay") {
         filtered.sort((a, b) =>
           sortOrder === "asc"
             ? a.pricePerDay - b.pricePerDay
             : b.pricePerDay - a.pricePerDay
         );
-      else if (sortBy === "createdAt")
-        filtered.sort((a, b) =>
-          sortOrder === "asc"
-            ? new Date(a.createdAt) - new Date(b.createdAt)
-            : new Date(b.createdAt) - new Date(a.createdAt)
-        );
-      else if (sortBy === "vehicleName")
+      } else if (sortBy === "vehicleName") {
         filtered.sort((a, b) =>
           sortOrder === "asc"
             ? a.vehicleName.localeCompare(b.vehicleName)
             : b.vehicleName.localeCompare(a.vehicleName)
         );
+      } else if (sortBy === "createdAt") {
+        filtered.sort((a, b) =>
+          sortOrder === "asc"
+            ? new Date(a.createdAt) - new Date(b.createdAt)
+            : new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      }
 
       setFilteredVehicles(filtered);
       setIsFiltering(false);
-    }, 500);
+    }, 300); // faster and smoother
 
     return () => clearTimeout(filterTimer);
   }, [vehicles, category, location, sortBy, sortOrder]);
@@ -67,7 +70,7 @@ const AllVehicles = () => {
     setCategory("");
     setLocation("");
     setSortBy("createdAt");
-    setSortOrder("");
+    setSortOrder("desc");
     setIsFiltering(true);
     setTimeout(() => {
       setFilteredVehicles(allvehiclesdata);
@@ -75,58 +78,33 @@ const AllVehicles = () => {
     }, 300);
   };
 
-  // Loading Skeleton
-  const LoadingSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {[...Array(6)].map((_, index) => (
-        <div
-          key={index}
-          className="bg-white rounded-3xl shadow-lg overflow-hidden animate-pulse"
-        >
-          <div className="h-56 bg-gray-300"></div>
-          <div className="p-6 space-y-4">
-            <div className="flex justify-between">
-              <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-              <div className="h-8 bg-gray-300 rounded w-16"></div>
-            </div>
-            <div className="h-4 bg-gray-300 rounded w-full"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-            <div className="h-12 bg-gray-300 rounded-xl"></div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
-  if (isLoading) {
-    return <Spinner />;
-  }
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent mb-3">
             Explore Our Fleet
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover the perfect vehicle for your journey from our curated
-            collection of premium rides
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            Find the perfect ride for your next adventure
           </p>
-          <div className="mt-2 text-lg font-semibold text-purple-600">
+          <div className="mt-2 text-base md:text-lg font-semibold text-purple-600">
             {filteredVehicles.length}{" "}
             {filteredVehicles.length === 1 ? "Vehicle" : "Vehicles"} Available
           </div>
         </div>
 
-        {/* Filters Section */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 mb-12 border border-white/50">
+        {/* Filters */}
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 sm:p-8 mb-10 border border-white/60">
           <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            {/* Left Side Filters */}
             <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full">
-              {/* Category Filter */}
+              {/* Category */}
               <div className="flex-1">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
                   Vehicle Type
                 </label>
                 <select
@@ -144,9 +122,9 @@ const AllVehicles = () => {
                 </select>
               </div>
 
-              {/* Location Filter */}
+              {/* Location */}
               <div className="flex-1">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
                   Location
                 </label>
                 <div className="relative">
@@ -180,31 +158,33 @@ const AllVehicles = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-end">
+            {/* Right Side Sorting */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
               {/* Sort Options */}
               <div className="flex gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
                     Sort By
                   </label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-4 py-3 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm min-w-40"
+                    className="px-4 py-3 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                   >
                     <option value="createdAt">Newest First</option>
                     <option value="pricePerDay">Price</option>
                     <option value="vehicleName">Name</option>
                   </select>
                 </div>
+
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
                     Order
                   </label>
                   <select
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value)}
-                    className="px-4 py-3 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm min-w-32"
+                    className="px-4 py-3 rounded-2xl border border-gray-200 bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                   >
                     <option value="desc">Descending</option>
                     <option value="asc">Ascending</option>
@@ -215,7 +195,7 @@ const AllVehicles = () => {
               {/* Reset Button */}
               <button
                 onClick={handleReset}
-                className="px-8 py-3 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-2xl transition-all duration-300 hover:bg-gray-900"
               >
                 Reset Filters
               </button>
@@ -223,7 +203,7 @@ const AllVehicles = () => {
           </div>
         </div>
 
-        {/* Loading State for Filtering */}
+        {/* Filter Loading */}
         {isFiltering && (
           <div className="flex justify-center mb-8">
             <div className="bg-blue-500/10 backdrop-blur-sm rounded-2xl px-6 py-3 border border-blue-200">
