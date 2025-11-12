@@ -1,11 +1,8 @@
 TravelEase - Vehicle Booking & Trip Management Platform 🚗
 
-https://i.ibb.co.com/7y0QZ2L/travelease-banner.png
-🌟 Live Demo
-
-Live Website: https://travel-ease-platform.netlify.app
-Client Repository: https://github.com/EmonHira135923/TravelEase-client
-Server Repository: https://github.com/EmonHira135923/TravelEase-server
+Live Website: https://travel-easy-with-ride-sharing.netlify.app/
+Client Repository: https://github.com/EmonHira135923/Easy-Ride-Client-Management
+Server Repository: https://github.com/EmonHira135923/Easy-Ride-Server-Management
 📖 Project Overview
 
 TravelEase is a modern full-stack vehicle rental platform that connects vehicle owners with travelers. Built with the MERN stack and Firebase Authentication, it provides a seamless experience for browsing, booking, and managing vehicles.
@@ -181,7 +178,7 @@ Prerequisites
 Client Setup
 bash
 
-git clone https://github.com/EmonHira135923/TravelEase-client.git
+git clone https://github.com/EmonHira135923/Easy-Ride-Client-Management.git
 cd TravelEase-client
 npm install
 npm run dev
@@ -189,7 +186,7 @@ npm run dev
 Server Setup
 bash
 
-git clone https://github.com/EmonHira135923/TravelEase-server.git
+git clone https://github.com/EmonHira135923/Easy-Ride-Server-Management.git
 cd TravelEase-server
 npm install
 npm start
@@ -385,7 +382,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 <div align-items="center">
 🏆 Awards & Recognition
 
-"Best MERN Stack Project 2024"
+"Best MERN Stack Project 2025"
 "Excellence in UI/UX Design"
 "Innovation in Travel Technology"
 🎉 Thank you for visiting TravelEase!
