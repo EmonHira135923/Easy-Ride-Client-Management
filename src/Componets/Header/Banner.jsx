@@ -5,23 +5,40 @@ import heroImage from "../../assets/heroimage.avif";
 const Banner = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
-  // Toggle theme
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
 
-  // Load theme from localStorage and trigger animations
   useEffect(() => {
     const savedTheme = localStorage.getItem("homeTheme");
     if (savedTheme === "dark") setIsDarkMode(true);
 
-    // Trigger entrance animations
-    setTimeout(() => setIsVisible(true), 100);
+    // Show banner after 0.3 seconds
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+      setIsLoading(false);
+    }, 300); // 0.3 sec
+
+    return () => clearTimeout(timer);
   }, []);
 
-  // Save theme to localStorage
   useEffect(() => {
     localStorage.setItem("homeTheme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
+
+  // Loading spinner
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-70 z-50">
+        <div className="relative flex flex-col items-center">
+          <div className="w-24 h-24 border-8 border-t-blue-500 border-b-purple-500 rounded-full animate-spin shadow-[0_0_30px_#3b82f6]"></div>
+          <span className="absolute mt-32 text-white text-lg font-semibold tracking-wider">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section
@@ -198,7 +215,7 @@ const Banner = () => {
           }`}
         >
           <div className="relative">
-            <div className={`relative rounded-3xl overflow-hidden`}>
+            <div className="relative rounded-3xl overflow-hidden">
               <img
                 src={heroImage}
                 alt="Modern Vehicles"
