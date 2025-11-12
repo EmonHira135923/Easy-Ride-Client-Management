@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, use } from "react";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 import { AuthProvider } from "../../ContextProvider/Provider";
@@ -6,7 +6,7 @@ import { Spinner } from "../../ContextProvider/AuthContext";
 
 const CarDetails = () => {
   const detailsData = useLoaderData();
-  const { user } = useContext(AuthProvider);
+  const { user } = use(AuthProvider);
   const [isLoading, setIsLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [showAllFeatures, setShowAllFeatures] = useState(false);

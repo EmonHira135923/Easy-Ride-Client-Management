@@ -5,7 +5,7 @@ import heroImage from "../../assets/heroimage.avif";
 const Banner = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
 

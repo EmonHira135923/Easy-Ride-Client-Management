@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, use } from "react";
 import { NavLink } from "react-router";
 import { Menu, X, LogOut, Car, BookOpen, Settings } from "lucide-react";
 import { AuthProvider } from "../../ContextProvider/Provider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, Signout } = useContext(AuthProvider);
+  const { user, Signout } = use(AuthProvider);
 
   const publicLinks = [
     { name: "Home", path: "/", icon: <Car size={18} /> },

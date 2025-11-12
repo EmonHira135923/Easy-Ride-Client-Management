@@ -47,7 +47,7 @@ const RegInForm = () => {
             await LogoutUser();
           }
 
-          e.target.reset(); // Reset form
+          e.target.reset();
         } catch (profileError) {
           SetError(profileError.message);
           Swal.fire("Error", profileError.message, "error");
@@ -63,7 +63,7 @@ const RegInForm = () => {
     Googlesign()
       .then(() => {
         Swal.fire("Success", "Registration Successful!", "success");
-        navigate("/"); // Google login naturally logs in
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire("Error", error.message, "error");

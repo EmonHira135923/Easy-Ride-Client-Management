@@ -1,13 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Car,
-  Plus,
-  Search,
-  TrendingUp,
-  Calendar,
-  DollarSign,
-} from "lucide-react";
+import { Car, Plus, Search } from "lucide-react";
 import Swal from "sweetalert2";
 import MyCar from "./MyCar";
 import { AuthProvider } from "../../ContextProvider/Provider";
@@ -15,7 +8,7 @@ import { NavLink } from "react-router";
 import { Spinner } from "../../ContextProvider/AuthContext";
 
 const MyVehicle = () => {
-  const { user } = useContext(AuthProvider);
+  const { user } = use(AuthProvider);
   const [vehicles, setVehicles] = useState([]);
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
