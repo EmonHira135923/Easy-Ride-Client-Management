@@ -25,13 +25,17 @@ const Router = createBrowserRouter([
       {
         path: "/allvehicles",
         loader: () =>
-          fetch("http://localhost:3000/allvehicles").then((res) => res.json()),
+          fetch("https://easy-ride-server-side.vercel.app/allvehicles").then(
+            (res) => res.json()
+          ),
         Component: AllVehicle,
       },
       {
         path: "/detailspage/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/allvehicles/${params.id}`),
+          fetch(
+            `https://easy-ride-server-side.vercel.app/allvehicles/${params.id}`
+          ),
         element: (
           <PrivateRouter>
             <CarDetails />

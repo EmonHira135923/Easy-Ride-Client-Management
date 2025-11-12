@@ -17,7 +17,7 @@ const MyBooking = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get("http://localhost:3000/bookings")
+        .get("https://easy-ride-server-side.vercel.app/bookings")
         .then((res) => {
           const userBookings = res.data.filter(
             (booking) => booking.userEmail === user.email

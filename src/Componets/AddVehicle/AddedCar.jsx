@@ -24,7 +24,7 @@ const AddedCar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3000/allvehicles", {
+    fetch("https://easy-ride-server-side.vercel.app/allvehicles", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(vehicleData),

@@ -31,7 +31,7 @@ const CarDetails = () => {
       bookingDate: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/bookings", {
+    fetch("https://easy-ride-server-side.vercel.app/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bookingData),

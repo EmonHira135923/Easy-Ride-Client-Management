@@ -8,7 +8,7 @@ const MyVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/allvehicles")
+    fetch("https://easy-ride-server-side.vercel.app/allvehicles")
       .then((res) => res.json())
       .then((data) => {
         const userVehicles = data.filter(
@@ -30,7 +30,7 @@ const MyVehicle = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/allvehicles/${id}`, {
+        fetch(`https://easy-ride-server-side.vercel.app/allvehicles/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
