@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, use } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { AuthProvider } from "../../ContextProvider/Provider";
 import Swal from "sweetalert2";
 
 const RegInForm = () => {
-  const { Createuser, Googlesign, UpdatedProfile } = useContext(AuthProvider);
+  const { Createuser, Googlesign, UpdatedProfile, LogoutUser } =
+    use(AuthProvider);
   const [error, SetError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -23,24 +24,38 @@ const RegInForm = () => {
       SetError(
         "Password must be at least 6 characters and include uppercase and lowercase letters"
       );
+      Swal.fire(
+        "Error",
+        "Password must include uppercase and lowercase letters",
+        "error"
+      );
       return;
     }
 
     Createuser(email, password)
-      .then((result) => {
-        UpdatedProfile(name, photo)
-          .then(() => {
-            Swal.fire("Success", "User Registered Successfully!", "success");
-            e.target.reset();
-            navigate("/");
-          })
-          .catch((error) => {
-            Swal.fire("Error", error.message, "error");
-          });
+      .then(async (result) => {
+        try {
+          await UpdatedProfile(name, photo);
+          Swal.fire(
+            "Success",
+            "User Registered Successfully! Please log in.",
+            "success"
+          );
+
+          // Log the user out to prevent auto-login
+          if (LogoutUser) {
+            await LogoutUser();
+          }
+
+          e.target.reset(); // Reset form
+        } catch (profileError) {
+          SetError(profileError.message);
+          Swal.fire("Error", profileError.message, "error");
+        }
       })
       .catch((error) => {
         SetError(error.message);
-        Swal.fire("Error", "Email Already Used", "error");
+        Swal.fire("Error", error.message, "error");
       });
   };
 
@@ -48,7 +63,7 @@ const RegInForm = () => {
     Googlesign()
       .then(() => {
         Swal.fire("Success", "Registration Successful!", "success");
-        navigate("/");
+        navigate("/"); // Google login naturally logs in
       })
       .catch((error) => {
         Swal.fire("Error", error.message, "error");
